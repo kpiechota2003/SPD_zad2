@@ -3,4 +3,4 @@ project(zadanie2_SPD)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(zadanie2_SPD main.cpp Task.cpp Task.h ProblemP2.cpp ProblemP2.h)
+add_executable(zadanie2_SPD main.cpp Task.cpp Task.h ProblemP2.cpp ProblemP2.h ProblemP3.cpp ProblemP3.h)

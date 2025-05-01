@@ -21,9 +21,9 @@ public:
     void LSA();
     void LPT();
     void PD();
-    void PZ(); //przegląd zupełny
-    //void PTAS();
-    //void FPTAS();
+    void PZ(int max_tasks = -1); //przegląd zupełny
+    void PTAS(int k);
+    void FPTAS(int k);
 
     void display();
 };

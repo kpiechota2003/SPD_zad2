@@ -29,6 +29,18 @@ int main() {
     p2.display();
     std::cout << "Cmax: " << p2.calc_Cmax() << std::endl << std::endl;
 
+    std::cout << "PTAS: " << std::endl;
+    p2.generateTasks(10, 10, common_seed);
+    p2.PTAS(5);
+    p2.display();
+    std::cout << "Cmax: " << p2.calc_Cmax() << std::endl << std::endl;
+
+    std::cout << "FPTAS: " << std::endl;
+    p2.generateTasks(10, 10, common_seed);
+    p2.FPTAS(3);
+    p2.display();
+    std::cout << "Cmax: " << p2.calc_Cmax() << std::endl << std::endl;
+
 
     return 0;
 }

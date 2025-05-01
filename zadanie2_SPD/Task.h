@@ -16,10 +16,6 @@ public:
     }
 };
 
-//std::ostream& operator<<(std::ostream& os, const Task& task) {
-//    os << "[" << task.index << "] p = (" << task.p << ")";
-//    return os;
-//}
 
 
 #endif //ZADANIE2_SPD_TASK_H

@@ -49,8 +49,6 @@ int ProblemP2::calc_Cmax(){
 
 void ProblemP2::LSA(){
     int end_m1 = 0, end_m2 = 0;
-    machine1.clear();
-    machine2.clear();
 
     for(const Task& task : tasks){
         if(end_m1 <= end_m2){
@@ -126,15 +124,17 @@ void ProblemP2::PD(){
     delete[] T;
 }
 
-void ProblemP2::PZ() {
+void ProblemP2::PZ(int max_tasks) {
     if (tasks.empty()) return;
 
     std::vector<bool> m1_tasks;
     std::vector<bool> best_m1_tasks;
     auto it = m1_tasks.end();
 
-    int n_tasks = tasks.size(), cmax = 0, best_cmax = INT_MAX, sum_of_p = 0;
+    int n_tasks, cmax = 0, best_cmax = INT_MAX, sum_of_p = 0;
     for (auto &task: tasks) sum_of_p += task.p;
+    if(max_tasks < 0) n_tasks = static_cast<int>(tasks.size());
+    else n_tasks = max_tasks;
 
     m1_tasks.resize(n_tasks);
     best_m1_tasks.resize(n_tasks);
@@ -170,4 +170,40 @@ void ProblemP2::PZ() {
         if (best_m1_tasks[i]) machine1.push_back(tasks[i]);
         else machine2.push_back(tasks[i]);
     }
+}
+
+void ProblemP2::PTAS(int k){
+    std::sort(tasks.begin(), tasks.end(), [](Task a, Task b){ return a.p > b.p; });
+    PZ(k);
+
+    int end_m1 = 0, end_m2 = 0;
+    for(auto & t : machine1) end_m1 += t.p;
+    for(auto & t : machine2) end_m2 += t.p;
+
+    for(int n_tasks = static_cast<int>(tasks.size()); k < n_tasks; ++k){
+        if(end_m1 <= end_m2){
+            machine1.push_back(tasks[k]);
+            end_m1 += tasks[k].p;
+        } else {
+            machine2.push_back(tasks[k]);
+            end_m2 += tasks[k].p;
+        }
+    }
+
+}
+
+void ProblemP2::FPTAS(int k){
+    ProblemP2 p;
+
+    p.tasks.reserve(tasks.size());
+
+    for(int i = 0; i < tasks.size(); ++i){
+        p.tasks.emplace_back(i, tasks[i].p / k);
+    }
+
+    p.PD();
+
+    for(auto & task : p.machine1) machine1.push_back(tasks[task.index]);
+    for(auto & task : p.machine2) machine2.push_back(tasks[task.index]);
+
 }

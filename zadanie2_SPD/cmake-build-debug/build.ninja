@@ -67,6 +67,12 @@ build CMakeFiles/zadanie2_SPD.dir/ProblemP2.cpp.obj: CXX_COMPILER__zadanie2_SPD_
   OBJECT_DIR = CMakeFiles\zadanie2_SPD.dir
   OBJECT_FILE_DIR = CMakeFiles\zadanie2_SPD.dir
 
+build CMakeFiles/zadanie2_SPD.dir/ProblemP3.cpp.obj: CXX_COMPILER__zadanie2_SPD_Debug C$:/Users/user1/Desktop/cpp/zadanie2_SPD/ProblemP3.cpp || cmake_object_order_depends_target_zadanie2_SPD
+  DEP_FILE = CMakeFiles\zadanie2_SPD.dir\ProblemP3.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++1z
+  OBJECT_DIR = CMakeFiles\zadanie2_SPD.dir
+  OBJECT_FILE_DIR = CMakeFiles\zadanie2_SPD.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target zadanie2_SPD
@@ -75,7 +81,7 @@ build CMakeFiles/zadanie2_SPD.dir/ProblemP2.cpp.obj: CXX_COMPILER__zadanie2_SPD_
 #############################################
 # Link the executable zadanie2_SPD.exe
 
-build zadanie2_SPD.exe: CXX_EXECUTABLE_LINKER__zadanie2_SPD_Debug CMakeFiles/zadanie2_SPD.dir/main.cpp.obj CMakeFiles/zadanie2_SPD.dir/Task.cpp.obj CMakeFiles/zadanie2_SPD.dir/ProblemP2.cpp.obj
+build zadanie2_SPD.exe: CXX_EXECUTABLE_LINKER__zadanie2_SPD_Debug CMakeFiles/zadanie2_SPD.dir/main.cpp.obj CMakeFiles/zadanie2_SPD.dir/Task.cpp.obj CMakeFiles/zadanie2_SPD.dir/ProblemP2.cpp.obj CMakeFiles/zadanie2_SPD.dir/ProblemP3.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\zadanie2_SPD.dir
