@@ -158,7 +158,7 @@ void ProblemP3::PZ(int max_tasks) {
         for (int i = 0; i < n_tasks; ++i) {
             if (m_tasks[i] == 0) c1 += tasks[i].p;
             if (m_tasks[i] == 1) c2 += tasks[i].p;
-            if (m_tasks[i] == 0) c1 += tasks[i].p;
+            if (m_tasks[i] == 2) c3 += tasks[i].p;
         }
         cmax = std::max(c1, std::max(c2, c3));
 
@@ -168,13 +168,13 @@ void ProblemP3::PZ(int max_tasks) {
             best_m_tasks = m_tasks;
         }
 
-        //Zwieksz o 1
-        it = (m_tasks.end())--;
-        while (true) {
-            if(*it < 2) ++*it;
-            else break;
-            --it;
+        int i = n_tasks - 1;
+        while (i >= 0 && m_tasks[i] == 2) {
+            m_tasks[i] = 0;
+            --i;
         }
+        if (i < 0) break; // koniec kombinacji
+        ++m_tasks[i];
     }
 
     //Ustawianie najlepszego rozwiązania

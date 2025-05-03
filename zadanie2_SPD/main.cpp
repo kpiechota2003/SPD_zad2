@@ -6,10 +6,18 @@ void P2_test();
 
 int main() {
     int common_seed = 1;
+    int tasks = 5;
+    int max_val =5;
     ProblemP3 p3;
     std::cout << "PD: " << std::endl;
-    p3.generateTasks(5, 5, common_seed);
+    p3.generateTasks(tasks, max_val, common_seed);
     p3.PD();
+    p3.display();
+    std::cout << "Cmax: " << p3.calc_Cmax() << std::endl << std::endl;
+
+    std::cout << "PZ: " << std::endl;
+    p3.generateTasks(tasks, max_val, common_seed);
+    p3.PZ();
     p3.display();
     std::cout << "Cmax: " << p3.calc_Cmax() << std::endl << std::endl;
 
