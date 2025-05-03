@@ -23,7 +23,7 @@ void ProblemP2::display() {
     std::cout << "|" << std::endl;
 }
 
-void ProblemP2::generateTasks(int n_tasks, int max_p, int seed) {
+void ProblemP2::generateTasks(int n_tasks, int max_p, int min_p,int seed) {
     tasks.clear();
     machine1.clear();
     machine2.clear();
@@ -35,7 +35,7 @@ void ProblemP2::generateTasks(int n_tasks, int max_p, int seed) {
     std::srand(seed);
 
     for (int i = 0; i < n_tasks; ++i) {
-        tasks.emplace_back(i, (std::rand() % max_p) + 1);
+        tasks.emplace_back(i, (std::rand() %  (max_p-min_p)) + min_p);
     }
 }
 
@@ -53,6 +53,7 @@ int ProblemP2::calc_Cmax(){
 }
 
 void ProblemP2::LSA(){
+    std::chrono::time_point<std::chrono::steady_clock> start0 = std::chrono::steady_clock::now();
     int end_m1 = 0, end_m2 = 0;
 
     for(const Task& task : tasks){
@@ -64,14 +65,22 @@ void ProblemP2::LSA(){
             end_m2 += task.p;
         }
     }
+    std::chrono::time_point<std::chrono::steady_clock> end0 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end0 - start0;
+    std::cout<<"Time for LSA:"<<elapsed_seconds.count()<<"\n";
 }
 
 void ProblemP2::LPT(){
+    std::chrono::time_point<std::chrono::steady_clock> start0 = std::chrono::steady_clock::now();
     std::sort(tasks.begin(), tasks.end(), [](Task a, Task b){ return a.p > b.p; });
     LSA();
+    std::chrono::time_point<std::chrono::steady_clock> end0 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end0 - start0;
+    std::cout<<"Time for LPT:"<<elapsed_seconds.count()<<"\n";
 }
 
 void ProblemP2::PD(){
+    std::chrono::time_point<std::chrono::steady_clock> start0 = std::chrono::steady_clock::now();
     int sum_of_p = 0;
     for(const Task& task : tasks) sum_of_p += task.p;
 
@@ -115,21 +124,26 @@ void ProblemP2::PD(){
     }
 
     //debug display
-    for (int i = 0; i < n_rows; ++i) {
-        for (int j = 0; j < n_cols; ++j) {
-            std::cout << T[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
+    // for (int i = 0; i < n_rows; ++i) {
+    //     for (int j = 0; j < n_cols; ++j) {
+    //         std::cout << T[i][j] << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
 
 
     for (int i = 0; i < n_rows; ++i) {
         delete[] T[i];
     }
     delete[] T;
+
+    std::chrono::time_point<std::chrono::steady_clock> end0 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end0 - start0;
+    std::cout<<"Time for PD:"<<elapsed_seconds.count()<<"\n";
 }
 
 void ProblemP2::PZ(int max_tasks) {
+    std::chrono::time_point<std::chrono::steady_clock> start0 = std::chrono::steady_clock::now();
     if (tasks.empty()) return;
 
     std::vector<bool> m1_tasks;
@@ -175,6 +189,9 @@ void ProblemP2::PZ(int max_tasks) {
         if (best_m1_tasks[i]) machine1.push_back(tasks[i]);
         else machine2.push_back(tasks[i]);
     }
+    std::chrono::time_point<std::chrono::steady_clock> end0 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end0 - start0;
+    std::cout<<"Time for PZ:"<<elapsed_seconds.count()<<"\n";
 }
 
 void ProblemP2::PTAS(int k){

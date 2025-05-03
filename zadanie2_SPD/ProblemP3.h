@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <climits>
 #include <cstdint>
+#include <chrono>
+
 
 #include "Task.h"
 
@@ -19,13 +21,13 @@ public:
 
     ProblemP3()= default;
 
-    void generateTasks(int n_tasks, int max_p, int seed = 0);
+    void generateTasks(int n_tasks, int max_p,int min_p,int seed = 0);
     int calc_Cmax();
 
     //void LSA();
     void PD();
     void PZ(int max_tasks = -1); //przegląd zupełny
-    //void PTAS(int k);
+    void PTAS(int k);
     //void FPTAS(int k);
 
     void display();

@@ -30,7 +30,7 @@ void ProblemP3::display() {
     }
     std::cout << "|" << std::endl;
 }
-void ProblemP3::generateTasks(int n_tasks, int max_p, int seed) {
+void ProblemP3::generateTasks(int n_tasks, int max_p, int min_p,int seed) {
     tasks.clear();
     machine1.clear();
     machine2.clear();
@@ -44,7 +44,7 @@ void ProblemP3::generateTasks(int n_tasks, int max_p, int seed) {
     std::srand(seed);
 
     for (int i = 0; i < n_tasks; ++i) {
-        tasks.emplace_back(i, (std::rand() % max_p) + 1);
+        tasks.emplace_back(i, (std::rand() % (max_p-min_p)) + min_p);
     }
 }
 int ProblemP3::calc_Cmax(){
@@ -64,6 +64,7 @@ int ProblemP3::calc_Cmax(){
 }
 
 void ProblemP3::PD(){
+    std::chrono::time_point<std::chrono::steady_clock> start0 = std::chrono::steady_clock::now();
     int sum_of_p = 0;
     for(const Task& task : tasks) sum_of_p += task.p;
 
@@ -133,16 +134,20 @@ void ProblemP3::PD(){
             machine3.push_back(tasks[j - 1]);
         }
     }
+    std::chrono::time_point<std::chrono::steady_clock> end0 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end0 - start0;
+    std::cout<<"Time for PD:"<<elapsed_seconds.count()<<"\n";
 }
 void ProblemP3::PZ(int max_tasks) {
+    std::chrono::time_point<std::chrono::steady_clock> start0 = std::chrono::steady_clock::now();
     if (tasks.empty()) return;
 
     std::vector<int> m_tasks;
     std::vector<int> best_m_tasks;
-    auto it = m_tasks.end();
 
     int n_tasks, cmax = 0, best_cmax = INT_MAX, sum_of_p = 0;
     for (auto &task: tasks) sum_of_p += task.p;
+
     if(max_tasks < 0) n_tasks = tasks.size();
     else n_tasks = std::min(max_tasks, static_cast<int>(tasks.size()));
 
@@ -183,4 +188,29 @@ void ProblemP3::PZ(int max_tasks) {
         else if (best_m_tasks[i] == 1) machine2.push_back(tasks[i]);
         else machine3.push_back(tasks[i]);
     }
+    std::chrono::time_point<std::chrono::steady_clock> end0 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end0 - start0;
+    std::cout<<"Time for PZ:"<<elapsed_seconds.count()<<"\n";
+}
+void ProblemP3::PTAS(int k){
+    std::chrono::time_point<std::chrono::steady_clock> start0 = std::chrono::steady_clock::now();
+    std::sort(tasks.begin(), tasks.end(), [](Task a, Task b){ return a.p > b.p; });
+    PZ(k);
+
+    int end_m1 = 0, end_m2 = 0;
+    for(auto & t : machine1) end_m1 += t.p;
+    for(auto & t : machine2) end_m2 += t.p;
+
+    for(int n_tasks = static_cast<int>(tasks.size()); k < n_tasks; ++k){
+        if(end_m1 <= end_m2){
+            machine1.push_back(tasks[k]);
+            end_m1 += tasks[k].p;
+        } else {
+            machine2.push_back(tasks[k]);
+            end_m2 += tasks[k].p;
+        }
+    }
+    std::chrono::time_point<std::chrono::steady_clock> end0 = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end0 - start0;
+    std::cout<<"Time for PTAS:"<<elapsed_seconds.count()<<"\n";
 }
