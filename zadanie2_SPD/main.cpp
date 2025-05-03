@@ -1,7 +1,22 @@
 #include <iostream>
 #include "ProblemP2.h"
+#include "ProblemP3.h"
+
+void P2_test();
 
 int main() {
+    int common_seed = 1;
+    ProblemP3 p3;
+    std::cout << "PD: " << std::endl;
+    p3.generateTasks(5, 5, common_seed);
+    p3.PD();
+    p3.display();
+    std::cout << "Cmax: " << p3.calc_Cmax() << std::endl << std::endl;
+
+    return 0;
+}
+
+void P2_test() {
     int common_seed = 1;
     ProblemP2 p2;
 
@@ -40,7 +55,4 @@ int main() {
     p2.FPTAS(3);
     p2.display();
     std::cout << "Cmax: " << p2.calc_Cmax() << std::endl << std::endl;
-
-
-    return 0;
 }

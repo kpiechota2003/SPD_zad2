@@ -5,6 +5,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <cstdint>
+#include <climits>
+
+
 #include "Task.h"
 
 class ProblemP2 {

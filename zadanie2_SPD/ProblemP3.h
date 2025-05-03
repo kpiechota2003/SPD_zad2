@@ -5,6 +5,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <climits>
+#include <cstdint>
+
 #include "Task.h"
 
 class ProblemP3 {
@@ -16,16 +19,16 @@ public:
 
     ProblemP3()= default;
 
-    //void generateTasks(int n_tasks, int max_p, int seed = 0);
-    //int calc_Cmax();
+    void generateTasks(int n_tasks, int max_p, int seed = 0);
+    int calc_Cmax();
 
     //void LSA();
-    //void PD();
+    void PD();
     void PZ(int max_tasks = -1); //przegląd zupełny
     //void PTAS(int k);
     //void FPTAS(int k);
 
-    //void display();
+    void display();
 };
 
 

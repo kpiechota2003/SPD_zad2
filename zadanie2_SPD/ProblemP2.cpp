@@ -1,6 +1,11 @@
 #include "ProblemP2.h"
 
 void ProblemP2::display() {
+    std::cout << "Tasks" << std::endl;
+    for (const Task& task : tasks) {
+        std::cout<<task.p<<" ";
+    }
+    std::cout<<std::endl;
     for (const Task& task : machine1) {
         std::cout << "|";
         for (int i = 0; i < task.p; ++i) {
@@ -71,7 +76,7 @@ void ProblemP2::PD(){
     for(const Task& task : tasks) sum_of_p += task.p;
 
     int n_rows = static_cast<int>(tasks.size() + 1);
-    int n_cols = sum_of_p / 2 + 1;
+    int n_cols = (sum_of_p / 2 )+ 1;
 
     int** T = new int*[n_rows](); // () zapewnia wypełnienie zerami
 
@@ -83,7 +88,7 @@ void ProblemP2::PD(){
     // algorytm programowania dynamicznego z instrukcji
     for(int j = 1; j < n_rows; ++j){
         for(int k = 1; k < n_cols; ++k){
-            if((T[j - 1][k] == 1) || ((k >= tasks[j].p) && (T[j - 1][k - tasks[j].p] == 1))) T[j][k] = 1;
+            if((T[j - 1][k] == 1) || ((k >= tasks[j-1].p) && (T[j - 1][k - tasks[j-1].p] == 1))) T[j][k] = 1;
         }
     }
 
@@ -93,14 +98,15 @@ void ProblemP2::PD(){
         if(T[n_rows - 1][k] == 1){
             c = std::max(k, sum_of_p - k);
             if (c < cmax) {
-                cmax = c;
-                k_cmax = k;
+                cmax = c; // maksymalny czas potrzebny do wykonania zadan
+                k_cmax = k; // dla jakiego k -- de facto czas dla jednej maszyny
             }
         }
     }
 
     for (int j = n_rows - 1; j >= 1; --j){
         if((k_cmax >= tasks[j - 1].p) && (T[j - 1][k_cmax - tasks[j - 1].p] == 1)){
+            // sprawdzam czy task sie miesci w k dla maszyny i czy moge uzupelnic potencjalnie to co zostalo wyliczone w czasie dla tej maszyny
             machine1.push_back(tasks[j - 1]);
             k_cmax -= tasks[j - 1].p;
         } else {
@@ -108,7 +114,6 @@ void ProblemP2::PD(){
         }
     }
 
-/*
     //debug display
     for (int i = 0; i < n_rows; ++i) {
         for (int j = 0; j < n_cols; ++j) {
@@ -116,7 +121,7 @@ void ProblemP2::PD(){
         }
         std::cout << std::endl;
     }
-*/
+
 
     for (int i = 0; i < n_rows; ++i) {
         delete[] T[i];
