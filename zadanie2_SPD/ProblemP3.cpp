@@ -71,8 +71,8 @@ void ProblemP3::PD(){
     int n_rows = static_cast<int>(tasks.size()+1);
     int n_cols = (sum_of_p)+ 1;
 
-    bool T[n_rows][n_cols][n_cols] = {};
-    int from[n_rows][n_cols][n_cols] = {};
+    std::vector<std::vector<std::vector<bool>>> T(n_rows, std::vector<std::vector<bool>>(n_cols, std::vector<bool>(n_cols, false)));
+    std::vector<std::vector<std::vector<int>>> from(n_rows, std::vector<std::vector<int>>(n_cols, std::vector<int>(n_cols, 0)));
 
     for (int j = 0; j < n_rows; ++j)
         for (int k = 0; k < n_cols; ++k)
